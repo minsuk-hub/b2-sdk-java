@@ -68,6 +68,7 @@ public class B2Sample {
 
         final String bucketName = "sample-" + client.getAccountId();
 
+        // 업로드 리스너
         final B2UploadListener uploadListener = (progress) -> {
             final double percent = (100. * (progress.getBytesSoFar() / (double) progress.getLength()));
             writer.println(String.format("  progress(%3.2f, %s)", percent, progress.toString()));
@@ -106,12 +107,14 @@ public class B2Sample {
         final B2Bucket bucket = client.createBucket(bucketName, B2BucketTypes.ALL_PRIVATE);
         final String bucketId = bucket.getBucketId();
 
+        // 현재의 리스트에 있는 버켓 확인
         // list buckets.
         bigHeader(writer, "List Buckets");
         for (B2Bucket scan : client.buckets()) {
             writer.println(" " + scan);
         }
 
+        
         // create a file on disk that we can upload.
         final File fileOnDisk = new File("/tmp/B2Sample-uploadMe.txt");
         writeToFile(fileOnDisk, "hello world!\n".getBytes());
